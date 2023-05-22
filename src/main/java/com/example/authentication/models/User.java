@@ -32,13 +32,13 @@ public class User {
 	private String email;
 
 	@NotBlank(message = "Por favor, ingresa el password")
-	@Size(min = 8, max = 20, message = "Password debe contener entre 8 a 20 caracteres ")
+	@Size(min = 8, max =64 , message = "Password debe contener entre 8 a 20 caracteres ")
 	private String password;
 
 	
 	@Transient
 	@NotBlank(message = "Confirma la contraseña por favor")
-	@Size(min = 8, max = 20, message = "Password debe contener entre 8 a 20 caracteres ")
+	@Size(min = 8, max = 64, message = "Password debe contener entre 8 a 20 caracteres ")
 	private String passwordConfirmation;
 
 	@Column(updatable = false)
