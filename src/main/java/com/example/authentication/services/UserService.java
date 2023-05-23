@@ -25,9 +25,12 @@ public class UserService {
 		if(!user.getPassword().equals(user.getPasswordConfirmation())) {
 			resultado.rejectValue("password", "Matches", "La confirmacion de contraseña debe coincidir");
 		}
+		if(resultado.hasErrors()) {
+        	return null;
+        }
 
 		String hashed = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
-		user.setPassword(hashed);
+		user.setPassword(hashed);		
 		return userRepo.save(user);
 	}
 

@@ -32,14 +32,15 @@ public class MainController {
 	public String register(@Valid @ModelAttribute("user") User usuario, 
 			BindingResult resultado, Model viewModel) {
 		if(resultado.hasErrors()) {
-//			viewModel.addAttribute("user", new User());
 			viewModel.addAttribute("login", new LoginUser());
 			return "loginreg.jsp";
 		}
 		
-		userService.registerUser(usuario, resultado);
+		User usuarioRegistrado = userService.registerUser(usuario, resultado);
 		viewModel.addAttribute("login", new LoginUser());
-		viewModel.addAttribute("succesRegister", "Gracias por registrarte, por favor login");
+		if(usuarioRegistrado != null) {
+			viewModel.addAttribute("succesRegister", "Gracias por registrarte, por favor login"); 	
+		}
 		return "loginreg.jsp";
 	}
 	
@@ -48,7 +49,6 @@ public class MainController {
 			BindingResult resultado, Model viewModel, HttpSession sesion) {
 		if(resultado.hasErrors()) {
 			viewModel.addAttribute("user", new User());
-//			viewModel.addAttribute("login", new LoginUser());
 			return "loginreg.jsp";
 		}
 		
@@ -56,7 +56,7 @@ public class MainController {
 				loginuser.getPassword(), resultado)) {
 			User usuarioLog = userService.findByEmail(loginuser.getEmail());
 			sesion.setAttribute("userID",  usuarioLog.getId());
-			System.out.println(sesion.getAttribute("userID") + "atributo ");
+//			System.out.println(sesion.getAttribute("userID") + "atributo ");
 			return "redirect:/dashboard";
 			
 		}else {
