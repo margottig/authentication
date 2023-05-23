@@ -19,7 +19,9 @@
 </head>
 <body>
 
-	<h1> Hola!!!</h1>
+	<h1> Hola!!! <c:out value="${usuario.userName }"></c:out></h1> 
+	
+	<a href="/logout"> Log out</a>
    
 </body>
 </html>

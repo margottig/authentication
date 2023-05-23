@@ -66,12 +66,20 @@ public class MainController {
 	}
 	
 	@GetMapping("/dashboard")
-	public String welcome(HttpSession sesion) {
+	public String welcome(HttpSession sesion, Model viewModel) {
 		Long userId = (Long) sesion.getAttribute("userID");
 		if(userId == null) {
 			return "redirect:/"; 
 		}
+		User usuario = userService.findUserById(userId);
+		viewModel.addAttribute("usuario", usuario);
 		return "dashboard.jsp";
 	}
+	
+	@GetMapping("/logout")
+	 public String logout(HttpSession session) {
+		 session.setAttribute("userId", null);
+		 return "redirect:/";
+	 }
 
 }
