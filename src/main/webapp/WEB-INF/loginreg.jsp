@@ -22,48 +22,60 @@
 </head>
 <body>
 
-	<h2>Register!</h2>
+	<div class="container">
+		<div class="row">
+			<div class="col-4 offset-1 ">
 
+				<h2>Register!</h2>
+				<div>
+					<form:errors path="user.*" class="text-danger" />
+				</div>
+				<form:form method="POST" action="/registration"
+					modelAttribute="user">
+					<div>
 
-		<div>
-			<form:errors path="user.*" class="text-danger" />
-		</div>
-	<form:form method="POST" action="/registration" modelAttribute="user">
-		<div>
+						<form:label path="userName">UserName:</form:label>
+						<form:input class="form-control" type="text" path="userName" />
+					</div>
+					<div>
+						<form:label path="email">Email:</form:label>
+						<form:input class="form-control" type="email" path="email" />
+					</div>
+					<div>
+						<form:label path="password">Password:</form:label>
+						<form:password path="password" class="form-control"/>
+					</div>
+					<div>
+						<form:label path="passwordConfirmation">Password Confirmation:</form:label>
+						<form:password path="passwordConfirmation" class="form-control"/>
+					</div>
+					<button type="submit" class="btn btn-success mt-4">Register!!</button>
+				</form:form>
+				<p class="text-danger mt-2"><c:out value="${succesRegister}" /></p>
+			</div>
+			
+<!-- 			<div class="col-2"></div> -->
 
-			<form:label path="userName">UserName:</form:label>
-			<form:input type="text" path="userName" />
+			<div class="col-4 offset-2">
+				<h2>Login</h2>
+				<div>
+					<form:errors path="login.*" class="text-danger" />
+				</div>
+				<form:form method="POST" action="/login" modelAttribute="login">
+					<div>
+						<form:label path="email">Email:</form:label>
+						<form:input type="email" path="email" class="form-control"/>
+					</div>
+					<div>
+						<form:label path="password">Password:</form:label>
+						<form:password path="password" class="form-control"/>
+					</div>
+					 <button type="submit" class="btn btn-success mt-4">Login!!</button>
+				</form:form>
+				
+			</div>
 		</div>
-		<div>
-			<form:label path="email">Email:</form:label>
-			<form:input type="email" path="email" />
-		</div>
-		<div>
-			<form:label path="password">Password:</form:label>
-			<form:password path="password" />
-		</div>
-		<div>
-			<form:label path="passwordConfirmation">Password Confirmation:</form:label>
-			<form:password path="passwordConfirmation" />
-		</div>
-		<input type="submit" value="Register!" />
-	</form:form>
-
-	<h2>Login</h2>
-		<div>
-			<form:errors path="login.*" class="text-danger" />
-		</div>
-	<form:form method="POST" action="/login" modelAttribute="login">
-		<div>
-			<form:label path="email">Email:</form:label>
-			<form:input type="email" path="email" />
-		</div>
-		<div>
-			<form:label path="password">Password:</form:label>
-			<form:password path="password" />
-		</div>
-		<input type="submit" value="Login!" />
-	</form:form>
+	</div>
 
 </body>
 </html>

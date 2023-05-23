@@ -12,6 +12,7 @@ import com.example.authentication.models.LoginUser;
 import com.example.authentication.models.User;
 import com.example.authentication.services.UserService;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
@@ -35,32 +36,41 @@ public class MainController {
 			viewModel.addAttribute("login", new LoginUser());
 			return "loginreg.jsp";
 		}
-		userService.registerUser(usuario);
-		return "redirect:/dashboard";
+		
+		userService.registerUser(usuario, resultado);
+		viewModel.addAttribute("login", new LoginUser());
+		viewModel.addAttribute("succesRegister", "Gracias por registrarte, por favor login");
+		return "loginreg.jsp";
 	}
 	
 	@PostMapping("/login")
 	public String login(@Valid @ModelAttribute("login") LoginUser loginuser, 
-			BindingResult resultado, Model viewModel) {
+			BindingResult resultado, Model viewModel, HttpSession sesion) {
 		if(resultado.hasErrors()) {
 			viewModel.addAttribute("user", new User());
 //			viewModel.addAttribute("login", new LoginUser());
 			return "loginreg.jsp";
 		}
+		
 		if(userService.authenticateUser(loginuser.getEmail(), 
-				loginuser.getPassword())) {
+				loginuser.getPassword(), resultado)) {
+			User usuarioLog = userService.findByEmail(loginuser.getEmail());
+			sesion.setAttribute("userID",  usuarioLog.getId());
+			System.out.println(sesion.getAttribute("userID") + "atributo ");
 			return "redirect:/dashboard";
 			
 		}else {
 			viewModel.addAttribute("user", new User());
-			resultado.rejectValue("email", "Matches", " Contraseña/Email no válido");
 			return "loginreg.jsp";
-			
 		}
 	}
 	
 	@GetMapping("/dashboard")
-	public String welcome() {
+	public String welcome(HttpSession sesion) {
+		Long userId = (Long) sesion.getAttribute("userID");
+		if(userId == null) {
+			return "redirect:/"; 
+		}
 		return "dashboard.jsp";
 	}
 
